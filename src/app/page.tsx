@@ -1,6 +1,11 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
-export default function Home() {
+export default async function Home({ searchParams }: PageProps<'/'>) {
+  // Si Supabase cae en la Site URL en vez de /auth/confirmar, el enlace llega aquí con ?code=.
+  const { code } = await searchParams
+  if (typeof code === 'string') redirect(`/auth/confirmar?code=${encodeURIComponent(code)}`)
+
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-6 px-5 py-16">
       <p className="text-sm font-semibold uppercase tracking-wide text-teal-700">Canal Seguro</p>
